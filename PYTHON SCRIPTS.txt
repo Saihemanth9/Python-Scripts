@@ -1,0 +1,32 @@
+import os
+import shutil
+
+def organize_files(folder_path):
+    # Dictionary to map file extensions to folders
+    file_types = {
+        '.jpg': 'Images',
+        '.png': 'Images',
+        '.pdf': 'Documents',
+        '.docx': 'Documents',
+        '.mp4': 'Videos',
+        '.avi': 'Videos'
+        # Add more file types and corresponding folders as needed
+    }
+
+    # Create folders if they don't exist
+    for folder in file_types.values():
+        os.makedirs(os.path.join(folder_path, folder), exist_ok=True)
+
+    # Move files to corresponding folders
+    for filename in os.listdir(folder_path):
+        if os.path.isfile(os.path.join(folder_path, filename)):
+            file_ext = os.path.splitext(filename)[1]
+            if file_ext in file_types:
+                src = os.path.join(folder_path, filename)
+                dest = os.path.join(folder_path, file_types[file_ext], filename)
+                shutil.move(src, dest)
+                print(f"Moved {filename} to {file_types[file_ext]} folder")
+
+# Example usage
+folder_to_organize = 'C:\\Users\\kotha\\OneDrive\\Desktop\\trash1'
+organize_files(folder_to_organize)
